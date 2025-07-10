@@ -2,7 +2,9 @@ use clap::{Parser, ValueEnum};
 
 #[derive(Parser)]
 #[command(name = "bradar")]
-#[command(about = "A tool for analyzing code statistics from remote repositories")]
+#[command(
+    about = "A tool for analyzing code statistics from remote repositories"
+)]
 #[command(version)]
 #[command(long_about = "
 A professional code analysis tool for remote repositories.

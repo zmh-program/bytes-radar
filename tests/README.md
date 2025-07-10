@@ -48,7 +48,7 @@ cargo test
 # Integration tests only
 cargo test integration_tests
 
-# Analysis tests only  
+# Analysis tests only
 cargo test analysis_tests
 
 # CLI tests only
@@ -79,16 +79,19 @@ cargo tarpaulin
 ## Test Categories
 
 ### Unit Tests
+
 - Test individual functions and methods in isolation
 - Focus on specific functionality and edge cases
 - Fast execution, no external dependencies
 
-### Integration Tests  
+### Integration Tests
+
 - Test interaction between multiple components
 - Test complete workflows and use cases
 - May include mock network operations
 
 ### Network Tests
+
 - Test actual network operations (marked with `#[ignore]` by default)
 - Require internet connection
 - May be flaky due to network conditions
@@ -108,8 +111,9 @@ cargo test network --ignored
 ## Test Data
 
 Tests use predefined test data and mock repositories where possible to ensure:
+
 - Consistent results across environments
-- Fast test execution  
+- Fast test execution
 - No dependency on external services
 
 ## Contributing
@@ -127,4 +131,4 @@ When adding new tests:
 
 - Tests should complete quickly (< 1 second for unit tests)
 - Network tests may take longer but should have reasonable timeouts
-- Use `cargo test --release` for performance-sensitive tests 
+- Use `cargo test --release` for performance-sensitive tests

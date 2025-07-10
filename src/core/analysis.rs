@@ -32,7 +32,7 @@ impl Display for FileCategory {
             Self::Test => "Test",
             Self::Build => "Build",
         };
-        write!(f, "{}", category)
+        write!(f, "{category}")
     }
 }
 
@@ -118,7 +118,9 @@ impl FileMetrics {
             ));
         }
 
-        if self.total_lines != self.code_lines + self.comment_lines + self.blank_lines {
+        if self.total_lines
+            != self.code_lines + self.comment_lines + self.blank_lines
+        {
             return Err(AnalysisError::invalid_statistics(
                 "Line counts don't add up",
             ));
@@ -186,7 +188,8 @@ impl LanguageAnalysis {
             average_file_size: if self.file_metrics.is_empty() {
                 0.0
             } else {
-                self.aggregate_metrics.total_lines as f64 / self.file_metrics.len() as f64
+                self.aggregate_metrics.total_lines as f64
+                    / self.file_metrics.len() as f64
             },
             complexity_ratio: self.aggregate_metrics.complexity_ratio(),
             documentation_ratio: self.aggregate_metrics.documentation_ratio(),
@@ -315,9 +318,13 @@ impl ProjectAnalysis {
             total_blank_lines: self.global_metrics.blank_lines,
             total_size_bytes: self.global_metrics.total_size_bytes,
             language_count: self.language_analyses.len(),
-            primary_language: language_stats.first().map(|s| s.language_name.clone()),
+            primary_language: language_stats
+                .first()
+                .map(|s| s.language_name.clone()),
             overall_complexity_ratio: self.global_metrics.complexity_ratio(),
-            overall_documentation_ratio: self.global_metrics.documentation_ratio(),
+            overall_documentation_ratio: self
+                .global_metrics
+                .documentation_ratio(),
         }
     }
 }

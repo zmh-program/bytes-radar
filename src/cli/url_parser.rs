@@ -3,7 +3,10 @@ pub fn expand_url(url: &str) -> String {
         return url.to_string();
     }
 
-    if url.contains('/') && !url.starts_with("http://") && !url.starts_with("https://") {
+    if url.contains('/')
+        && !url.starts_with("http://")
+        && !url.starts_with("https://")
+    {
         let parts: Vec<&str> = url.split('@').collect();
         let repo_part = parts[0];
         let branch_or_commit = parts.get(1);
@@ -11,13 +14,19 @@ pub fn expand_url(url: &str) -> String {
         let path_parts: Vec<&str> = repo_part.split('/').collect();
         if path_parts.len() == 2 {
             if let Some(branch) = branch_or_commit {
-                if branch.len() >= 7 && branch.chars().all(|c| c.is_ascii_hexdigit()) {
-                    return format!("https://github.com/{}/commit/{}", repo_part, branch);
+                if branch.len() >= 7
+                    && branch.chars().all(|c| c.is_ascii_hexdigit())
+                {
+                    return format!(
+                        "https://github.com/{repo_part}/commit/{branch}"
+                    );
                 } else {
-                    return format!("https://github.com/{}/tree/{}", repo_part, branch);
+                    return format!(
+                        "https://github.com/{repo_part}/tree/{branch}"
+                    );
                 }
             } else {
-                return format!("https://github.com/{}", repo_part);
+                return format!("https://github.com/{repo_part}");
             }
         }
     }

@@ -18,16 +18,16 @@ async fn main() -> Result<()> {
     let mut results = HashMap::new();
 
     for repo in &repositories {
-        println!("Analyzing: {}", repo);
+        println!("Analyzing: {repo}");
 
         match analyzer.analyze_url(repo).await {
             Ok(analysis) => {
                 let summary = analysis.get_summary();
                 results.insert(repo.to_string(), summary);
-                println!("✓ Completed: {}", repo);
+                println!("✓ Completed: {repo}");
             }
             Err(e) => {
-                eprintln!("✗ Failed {}: {}", repo, e);
+                eprintln!("✗ Failed {repo}: {e}");
             }
         }
         println!();
@@ -48,7 +48,8 @@ async fn main() -> Result<()> {
 
     for (repo, summary) in &results {
         let repo_name = repo.split('/').last().unwrap_or(repo);
-        let primary_lang = summary.primary_language.as_deref().unwrap_or("Unknown");
+        let primary_lang =
+            summary.primary_language.as_deref().unwrap_or("Unknown");
 
         println!(
             "{:<20} {:>10} {:>12} {:>12} {:>15}",

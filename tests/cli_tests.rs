@@ -114,7 +114,11 @@ mod cli_tests {
 
         for url in malformed_urls {
             let result = analyzer.analyze_url(url).await;
-            assert!(result.is_err(), "Expected error for malformed URL: {}", url);
+            assert!(
+                result.is_err(),
+                "Expected error for malformed URL: {}",
+                url
+            );
         }
     }
 

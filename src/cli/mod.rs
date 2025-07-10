@@ -8,7 +8,8 @@ mod progress;
 mod url_parser;
 
 #[cfg(feature = "cli")]
-use crate::core::*;
+#[allow(unused_imports)]
+use crate::core::{RemoteAnalyzer, error, filter};
 #[cfg(feature = "cli")]
 use clap::Parser;
 #[cfg(feature = "cli")]
@@ -18,13 +19,19 @@ use std::time::Instant;
 pub use args::{Cli, OutputFormat};
 
 #[cfg(feature = "cli")]
-pub async fn run() -> Result<()> {
+pub async fn run() -> error::Result<()> {
     let cli = args::Cli::parse();
 
     if cli.debug {
-        env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("debug")).init();
+        env_logger::Builder::from_env(
+            env_logger::Env::default().default_filter_or("debug"),
+        )
+        .init();
     } else {
-        env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("warn")).init();
+        env_logger::Builder::from_env(
+            env_logger::Env::default().default_filter_or("warn"),
+        )
+        .init();
     }
 
     match &cli.url {
@@ -37,7 +44,7 @@ pub async fn run() -> Result<()> {
 }
 
 #[cfg(feature = "cli")]
-async fn analyze_remote_archive(url: &str, cli: &Cli) -> Result<()> {
+async fn analyze_remote_archive(url: &str, cli: &Cli) -> error::Result<()> {
     let format = cli.format.as_ref().unwrap_or(&OutputFormat::Table);
     let should_show_progress =
         !cli.no_progress && matches!(format, OutputFormat::Table) && !cli.quiet;
@@ -45,7 +52,7 @@ async fn analyze_remote_archive(url: &str, cli: &Cli) -> Result<()> {
     let processed_url = url_parser::expand_url(url);
 
     if should_show_progress && !cli.quiet {
-        println!("Analyzing: {}", processed_url);
+        println!("Analyzing: {processed_url}");
     }
 
     let start_time = Instant::now();
@@ -64,11 +71,13 @@ async fn analyze_remote_archive(url: &str, cli: &Cli) -> Result<()> {
     if cli.aggressive_filter {
         analyzer.set_aggressive_filtering(true);
     } else {
-        let mut filter = filter::IntelligentFilter::default();
-        filter.max_file_size = cli.max_file_size * 1024;
-        filter.ignore_test_dirs = !cli.include_tests;
-        filter.ignore_docs_dirs = !cli.include_docs;
-        analyzer.set_filter(filter);
+        #[allow(clippy::unnecessary_operation)]
+        filter::IntelligentFilter {
+            max_file_size: cli.max_file_size * 1024,
+            ignore_test_dirs: !cli.include_tests,
+            ignore_docs_dirs: !cli.include_docs,
+            ..Default::default()
+        };
     }
 
     let project_analysis = analyzer.analyze_url(&processed_url).await?;
@@ -83,7 +92,11 @@ async fn analyze_remote_archive(url: &str, cli: &Cli) -> Result<()> {
 
     match format {
         OutputFormat::Table => {
-            output::print_table_format(&project_analysis, cli.detailed, cli.quiet);
+            output::print_table_format(
+                &project_analysis,
+                cli.detailed,
+                cli.quiet,
+            );
         }
         OutputFormat::Json => output::print_json_format(&project_analysis)?,
         OutputFormat::Csv => output::print_csv_format(&project_analysis)?,

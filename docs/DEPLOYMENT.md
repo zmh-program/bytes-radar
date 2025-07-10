@@ -18,27 +18,32 @@ The server component is automatically built and pushed to the `cf-worker` branch
 If you prefer to deploy manually:
 
 1. Clone the cf-worker branch which contains the pre-built worker:
+
 ```bash
 git clone -b cf-worker https://github.com/zmh-program/bytes-radar.git
 cd bytes-radar/server
 ```
 
 2. Install Wrangler CLI:
+
 ```bash
 pnpm install -g wrangler
 ```
 
 3. Authenticate with Cloudflare:
+
 ```bash
 wrangler login
 ```
 
 4. Deploy to staging environment:
+
 ```bash
 wrangler deploy --env staging
 ```
 
 5. Deploy to production:
+
 ```bash
 wrangler deploy --env production
 ```
@@ -46,6 +51,7 @@ wrangler deploy --env production
 ### Environment Configuration
 
 The worker supports two environments:
+
 - `staging`: For testing and development (bytes-radar-staging.workers.dev)
 - `production`: For production use (bytes-radar-prod.workers.dev)
 
@@ -56,6 +62,7 @@ See `server/wrangler.toml` for environment-specific configurations.
 The Bytes Radar API provides code analysis capabilities through a simple HTTP interface.
 
 ### Base URL
+
 ```
 https://bradar.zmh.me
 ```
@@ -63,6 +70,7 @@ https://bradar.zmh.me
 ### Endpoints
 
 #### Analyze Repository
+
 ```http
 GET /{repository_path}
 ```
@@ -70,22 +78,26 @@ GET /{repository_path}
 Analyzes a repository and returns detailed statistics about its codebase.
 
 ##### Repository Path Formats
+
 - GitHub repository: `owner/repo` or `owner/repo@branch`
 - Full GitHub URL: `https://github.com/owner/repo`
 - GitLab URL: `https://gitlab.com/owner/repo`
 - Direct archive URL: `https://example.com/archive.tar.gz`
 
 ##### Query Parameters
+
 - `ignore_hidden` (boolean, default: true) - Whether to ignore hidden files/directories
 - `ignore_gitignore` (boolean, default: true) - Whether to respect .gitignore rules
 - `max_file_size` (number, default: -1) - Maximum file size to analyze in bytes (-1 for no limit)
 
 ##### Example Request
+
 ```http
 GET /zmh-program/bytes-radar
 ```
 
 ##### Example Response
+
 ```json
 {
   "project_name": "bytes-radar@main",
@@ -135,6 +147,7 @@ GET /zmh-program/bytes-radar
 ```
 
 ##### Error Response
+
 ```json
 {
   "error": "Error message",
@@ -148,11 +161,12 @@ GET /zmh-program/bytes-radar
 ```
 
 ### Rate Limits and Timeouts
+
 - Request timeout: 20~30 seconds (Free tier)
 - Rate limits: Based on Cloudflare Workers limits
 
 ### Notes
+
 - Large repositories may hit the 20-second timeout limit on the free tier
 - For analyzing large repositories, consider using the CLI tool or upgrading to Cloudflare Workers Pro
 - The service automatically tries common branch names (main, master, develop, dev) if not specified
-

@@ -13,13 +13,19 @@ pub struct AnalysisOptions {
 pub async fn analyze_url_server(url: &str, options: JsValue) -> Result<JsValue, JsValue> {
     let _opts: AnalysisOptions = serde_wasm_bindgen::from_value(options)
         .map_err(|e| JsValue::from_str(&format!("Failed to parse options: {}", e)))?;
-    
+
     let mut analyzer = RemoteAnalyzer::new();
     analyzer.set_timeout(300);
-    
+
     match analyzer.analyze_url(url).await {
         Ok(analysis) => {
-            web_sys::console::log_1(&format!("Server: Successfully analyzed project: {}", analysis.project_name).into());
+            web_sys::console::log_1(
+                &format!(
+                    "Server: Successfully analyzed project: {}",
+                    analysis.project_name
+                )
+                .into(),
+            );
             serde_wasm_bindgen::to_value(&analysis).map_err(|e| {
                 JsValue::from_str(&format!("Failed to serialize analysis result: {}", e))
             })
@@ -30,5 +36,3 @@ pub async fn analyze_url_server(url: &str, options: JsValue) -> Result<JsValue, 
         }
     }
 }
-
- 

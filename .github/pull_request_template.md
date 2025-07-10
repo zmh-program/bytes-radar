@@ -23,9 +23,9 @@ Fixes #
 
 <!-- List the specific changes made in this PR -->
 
-- 
-- 
-- 
+-
+-
+-
 
 ## Testing
 
@@ -82,4 +82,4 @@ cargo clippy --all-targets --all-features -- -D warnings
 
 ## Additional Notes
 
-<!-- Any additional information that reviewers should know --> 
+<!-- Any additional information that reviewers should know -->

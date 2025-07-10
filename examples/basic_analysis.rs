@@ -8,7 +8,7 @@ async fn main() -> Result<()> {
 
     let url = "https://github.com/zmh-program/bytes-radar";
 
-    println!("Analyzing repository: {}", url);
+    println!("Analyzing repository: {url}");
 
     let project_analysis = analyzer.analyze_url(url).await?;
 
@@ -24,7 +24,7 @@ async fn main() -> Result<()> {
     println!("Total Size: {} bytes", summary.total_size_bytes);
     println!("Language Count: {}", summary.language_count);
     if let Some(primary_lang) = &summary.primary_language {
-        println!("Primary Language: {}", primary_lang);
+        println!("Primary Language: {primary_lang}");
     }
     println!(
         "Complexity Ratio: {:.2}%",

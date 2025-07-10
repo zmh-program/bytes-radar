@@ -17,9 +17,11 @@ mod analysis_tests {
     fn test_language_analysis_add_files() -> Result<()> {
         let mut analysis = LanguageAnalysis::new("Rust".to_string());
 
-        let file1 = FileMetrics::new("main.rs", "Rust".to_string(), 100, 80, 15, 5)?;
+        let file1 =
+            FileMetrics::new("main.rs", "Rust".to_string(), 100, 80, 15, 5)?;
 
-        let file2 = FileMetrics::new("lib.rs", "Rust".to_string(), 50, 40, 8, 2)?;
+        let file2 =
+            FileMetrics::new("lib.rs", "Rust".to_string(), 50, 40, 8, 2)?;
 
         analysis.add_file_metrics(file1)?;
         analysis.add_file_metrics(file2)?;
@@ -38,7 +40,14 @@ mod analysis_tests {
     fn test_language_analysis_wrong_language() -> Result<()> {
         let mut analysis = LanguageAnalysis::new("Rust".to_string());
 
-        let wrong_file = FileMetrics::new("script.js", "JavaScript".to_string(), 50, 40, 5, 5)?;
+        let wrong_file = FileMetrics::new(
+            "script.js",
+            "JavaScript".to_string(),
+            50,
+            40,
+            5,
+            5,
+        )?;
 
         let result = analysis.add_file_metrics(wrong_file);
         assert!(result.is_err());
@@ -163,10 +172,12 @@ mod analysis_tests {
         let mut aggregate = AggregateMetrics::default();
 
         let file1 =
-            FileMetrics::new("test1.rs", "Rust".to_string(), 50, 40, 8, 2)?.with_size_bytes(1000);
+            FileMetrics::new("test1.rs", "Rust".to_string(), 50, 40, 8, 2)?
+                .with_size_bytes(1000);
 
         let file2 =
-            FileMetrics::new("test2.rs", "Rust".to_string(), 30, 25, 3, 2)?.with_size_bytes(600);
+            FileMetrics::new("test2.rs", "Rust".to_string(), 30, 25, 3, 2)?
+                .with_size_bytes(600);
 
         aggregate.incorporate(&file1);
         aggregate.incorporate(&file2);
@@ -185,7 +196,8 @@ mod analysis_tests {
     fn test_aggregate_metrics_ratios() -> Result<()> {
         let mut aggregate = AggregateMetrics::default();
 
-        let file = FileMetrics::new("test.rs", "Rust".to_string(), 100, 80, 15, 5)?;
+        let file =
+            FileMetrics::new("test.rs", "Rust".to_string(), 100, 80, 15, 5)?;
 
         aggregate.incorporate(&file);
 
@@ -205,12 +217,14 @@ mod analysis_tests {
 
     #[test]
     fn test_file_metrics_edge_cases() -> Result<()> {
-        let empty_file = FileMetrics::new("empty.rs", "Rust".to_string(), 0, 0, 0, 0)?;
+        let empty_file =
+            FileMetrics::new("empty.rs", "Rust".to_string(), 0, 0, 0, 0)?;
 
         assert_eq!(empty_file.complexity_ratio(), 0.0);
         assert_eq!(empty_file.documentation_ratio(), 0.0);
 
-        let no_comments = FileMetrics::new("simple.rs", "Rust".to_string(), 10, 8, 0, 2)?;
+        let no_comments =
+            FileMetrics::new("simple.rs", "Rust".to_string(), 10, 8, 0, 2)?;
 
         assert_eq!(no_comments.documentation_ratio(), 0.0);
 
@@ -222,7 +236,8 @@ mod analysis_tests {
         let empty_path = FileMetrics::new("", "Rust".to_string(), 10, 8, 1, 1)?;
         assert!(empty_path.validate().is_err());
 
-        let empty_language = FileMetrics::new("test.rs", "".to_string(), 10, 8, 1, 1)?;
+        let empty_language =
+            FileMetrics::new("test.rs", "".to_string(), 10, 8, 1, 1)?;
         assert!(empty_language.validate().is_err());
 
         Ok(())

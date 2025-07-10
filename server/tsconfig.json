@@ -2,8 +2,12 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "ES2020",
-    "lib": ["ES2020"],
-    "types": ["@cloudflare/workers-types"],
+    "lib": [
+      "ES2020"
+    ],
+    "types": [
+      "@cloudflare/workers-types"
+    ],
     "moduleResolution": "node",
     "strict": true,
     "noEmit": true,
@@ -12,9 +16,15 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
-  "include": ["./**/*"],
-  "exclude": ["node_modules"]
-} 
+  "include": [
+    "./**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -3,8 +3,8 @@ use std::env;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let github_token =
-        env::var("GITHUB_TOKEN").expect("Please set GITHUB_TOKEN environment variable");
+    let github_token = env::var("GITHUB_TOKEN")
+        .expect("Please set GITHUB_TOKEN environment variable");
 
     let mut analyzer = RemoteAnalyzer::new();
     analyzer.set_github_token(&github_token);
@@ -12,8 +12,9 @@ async fn main() -> Result<()> {
 
     let url = "https://github.com/your-username/your-repo";
 
-    println!("Analyzing private repository: {}", url);
-    println!("Using GitHub token for authentication...");
+    println!(
+        "Analyzing private repository: {url}\nUsing GitHub token for authentication..."
+    );
 
     match analyzer.analyze_url(url).await {
         Ok(project_analysis) => {
@@ -39,7 +40,7 @@ async fn main() -> Result<()> {
             }
         }
         Err(e) => {
-            eprintln!("Failed to analyze repository: {}", e);
+            eprintln!("Failed to analyze repository: {e}");
             eprintln!("Make sure:");
             eprintln!("1. GITHUB_TOKEN is set and valid");
             eprintln!("2. Token has access to the repository");

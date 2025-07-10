@@ -14,12 +14,14 @@ Thank you for your interest in contributing to bytes-radar! This document provid
 1. **Fork the repository**
 
 2. **Clone your fork**:
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/bytes-radar.git
    cd bytes-radar
    ```
 
 3. **Set up the development environment**:
+
    ```bash
    cargo build
    cargo test --all-features
@@ -57,6 +59,7 @@ Follow conventional commit format:
 - `chore:` - Maintenance tasks
 
 Examples:
+
 ```
 feat: add support for SourceForge repositories
 fix: handle network timeouts gracefully
@@ -190,18 +193,21 @@ bytes-radar/
 We welcome contributions in these areas:
 
 ### High Priority
+
 - New git platform support
 - Performance optimizations
 - Better error messages
 - More output formats
 
 ### Medium Priority
+
 - CLI improvements
 - Documentation improvements
 - More language detection
 - Cross-platform testing
 
 ### Low Priority
+
 - Code cleanup
 - Minor feature additions
 - Example improvements
@@ -216,6 +222,7 @@ If you need help:
 ## Pull Request Process
 
 1. **Before submitting**:
+
    - Fork the repository
    - Create a feature branch
    - Write tests for your changes
@@ -223,12 +230,14 @@ If you need help:
    - Update documentation
 
 2. **Submitting**:
+
    - Fill out the PR template completely
    - Reference related issues
    - Describe your changes clearly
    - Include screenshots if relevant
 
 3. **After submitting**:
+
    - Respond to review feedback
    - Make requested changes
    - Keep your branch up to date
@@ -253,4 +262,4 @@ By contributing to bytes-radar, you agree that your contributions will be licens
 
 ---
 
-Thank you for contributing to bytes-radar! 
+Thank you for contributing to bytes-radar!

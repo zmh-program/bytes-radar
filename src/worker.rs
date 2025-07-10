@@ -11,10 +11,15 @@ pub struct AnalysisOptions {
 }
 
 #[wasm_bindgen]
-pub async fn analyze_url(url: String, options: JsValue) -> Result<JsValue, JsValue> {
+pub async fn analyze_url(
+    url: String,
+    options: JsValue,
+) -> Result<JsValue, JsValue> {
     let opts: AnalysisOptions = serde_wasm_bindgen::from_value(options)?;
 
-    web_sys::console::log_1(&format!("Starting analysis for URL: {}", url).into());
+    web_sys::console::log_1(
+        &format!("Starting analysis for URL: {}", url).into(),
+    );
 
     let mut analyzer = RemoteAnalyzer::new();
 
@@ -45,7 +50,8 @@ pub async fn analyze_url(url: String, options: JsValue) -> Result<JsValue, JsVal
             struct WASMAnalysisResult {
                 project_name: String,
                 summary: crate::core::analysis::ProjectSummary,
-                language_statistics: Vec<crate::core::analysis::LanguageStatistics>,
+                language_statistics:
+                    Vec<crate::core::analysis::LanguageStatistics>,
                 wasm_debug_info: WASMDebugInfo,
             }
 
@@ -80,7 +86,8 @@ pub async fn analyze_url(url: String, options: JsValue) -> Result<JsValue, JsVal
             web_sys::console::log_1(
                 &format!(
                     "WASM Analysis Debug - Languages: {}, Files: {}",
-                    wasm_debug_info.total_languages, wasm_debug_info.total_files,
+                    wasm_debug_info.total_languages,
+                    wasm_debug_info.total_files,
                 )
                 .into(),
             );
@@ -104,9 +111,9 @@ pub async fn analyze_url(url: String, options: JsValue) -> Result<JsValue, JsVal
             let error_result = WASMErrorResult {
                 error: format!("{}", e),
                 error_type: match e {
-                    crate::core::error::AnalysisError::NetworkError { .. } => {
-                        "NetworkError".to_string()
-                    }
+                    crate::core::error::AnalysisError::NetworkError {
+                        ..
+                    } => "NetworkError".to_string(),
                     _ => "AnalysisError".to_string(),
                 },
                 url: url.clone(),

@@ -91,7 +91,10 @@ impl AnalysisError {
         }
     }
 
-    pub fn directory_traversal<P: AsRef<str>>(path: P, source: io::Error) -> Self {
+    pub fn directory_traversal<P: AsRef<str>>(
+        path: P,
+        source: io::Error,
+    ) -> Self {
         Self::DirectoryTraversalError {
             path: path.as_ref().to_string(),
             source,

@@ -196,7 +196,8 @@ impl IntelligentFilter {
 
     fn is_in_build_directory(&self, path: &Path) -> bool {
         path.components().any(|component| {
-            let component_str = component.as_os_str().to_string_lossy().to_lowercase();
+            let component_str =
+                component.as_os_str().to_string_lossy().to_lowercase();
             component_str == "target"
                 || component_str == "build"
                 || component_str == "dist"
@@ -208,7 +209,8 @@ impl IntelligentFilter {
 
     fn is_in_package_directory(&self, path: &Path) -> bool {
         path.components().any(|component| {
-            let component_str = component.as_os_str().to_string_lossy().to_lowercase();
+            let component_str =
+                component.as_os_str().to_string_lossy().to_lowercase();
             component_str == "node_modules"
                 || component_str == "vendor"
                 || component_str == ".nuget"
@@ -220,7 +222,8 @@ impl IntelligentFilter {
 
     fn is_in_test_directory(&self, path: &Path) -> bool {
         path.components().any(|component| {
-            let component_str = component.as_os_str().to_string_lossy().to_lowercase();
+            let component_str =
+                component.as_os_str().to_string_lossy().to_lowercase();
             component_str == "tests"
                 || component_str == "test"
                 || component_str == "__tests__"
@@ -231,7 +234,8 @@ impl IntelligentFilter {
 
     fn is_in_docs_directory(&self, path: &Path) -> bool {
         path.components().any(|component| {
-            let component_str = component.as_os_str().to_string_lossy().to_lowercase();
+            let component_str =
+                component.as_os_str().to_string_lossy().to_lowercase();
             component_str == "docs"
                 || component_str == "doc"
                 || component_str == "documentation"
@@ -357,7 +361,9 @@ mod tests {
     fn test_package_directory_detection() {
         let filter = IntelligentFilter::default();
 
-        assert!(!filter.should_process_file("node_modules/package/index.js", 1000));
+        assert!(
+            !filter.should_process_file("node_modules/package/index.js", 1000)
+        );
         assert!(!filter.should_process_file("vendor/package/lib.php", 1000));
         assert!(filter.should_process_file("src/vendor_api.rs", 1000));
     }

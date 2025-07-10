@@ -61,7 +61,11 @@ pub struct LanguageDefinition {
     pub env: Vec<String>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub mime_types: Vec<String>,
-    #[serde(default, skip_serializing_if = "Vec::is_empty", alias = "line_comment")]
+    #[serde(
+        default,
+        skip_serializing_if = "Vec::is_empty",
+        alias = "line_comment"
+    )]
     pub line_comments: Vec<String>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub multi_line_comments: Vec<(String, String)>,
@@ -108,21 +112,27 @@ impl LanguageRegistry {
         LANGUAGE_MAP.get(name)
     }
 
-    pub fn detect_by_extension(extension: &str) -> Option<&'static LanguageDefinition> {
+    pub fn detect_by_extension(
+        extension: &str,
+    ) -> Option<&'static LanguageDefinition> {
         let ext = extension.to_lowercase();
         EXTENSION_MAP
             .get(&ext)
             .and_then(|name| LANGUAGE_MAP.get(name))
     }
 
-    pub fn detect_by_filename(filename: &str) -> Option<&'static LanguageDefinition> {
+    pub fn detect_by_filename(
+        filename: &str,
+    ) -> Option<&'static LanguageDefinition> {
         let lower_filename = filename.to_lowercase();
         FILENAME_MAP
             .get(&lower_filename)
             .and_then(|name| LANGUAGE_MAP.get(name))
     }
 
-    pub fn detect_by_path<P: AsRef<Path>>(path: P) -> Option<&'static LanguageDefinition> {
+    pub fn detect_by_path<P: AsRef<Path>>(
+        path: P,
+    ) -> Option<&'static LanguageDefinition> {
         let path = path.as_ref();
 
         if let Some(filename) = path.file_name().and_then(|n| n.to_str()) {
@@ -138,7 +148,8 @@ impl LanguageRegistry {
         None
     }
 
-    pub fn all_languages() -> impl Iterator<Item = &'static LanguageDefinition> {
+    pub fn all_languages() -> impl Iterator<Item = &'static LanguageDefinition>
+    {
         LANGUAGE_MAP.values()
     }
 
@@ -154,7 +165,8 @@ impl LanguageRegistry {
 fn create_languages() -> HashMap<String, LanguageDefinition> {
     const LANGUAGES_JSON: &str = include_str!("../languages.json");
     let mut languages: HashMap<String, LanguageDefinition> =
-        serde_json::from_str(LANGUAGES_JSON).expect("Failed to parse languages.json");
+        serde_json::from_str(LANGUAGES_JSON)
+            .expect("Failed to parse languages.json");
 
     for (key, lang_def) in languages.iter_mut() {
         if lang_def.name.is_empty() {
@@ -185,6 +197,9 @@ fn create_filename_map() -> HashMap<String, String> {
     map
 }
 
-static LANGUAGE_MAP: Lazy<HashMap<String, LanguageDefinition>> = Lazy::new(create_languages);
-static EXTENSION_MAP: Lazy<HashMap<String, String>> = Lazy::new(create_extension_map);
-static FILENAME_MAP: Lazy<HashMap<String, String>> = Lazy::new(create_filename_map);
+static LANGUAGE_MAP: Lazy<HashMap<String, LanguageDefinition>> =
+    Lazy::new(create_languages);
+static EXTENSION_MAP: Lazy<HashMap<String, String>> =
+    Lazy::new(create_extension_map);
+static FILENAME_MAP: Lazy<HashMap<String, String>> =
+    Lazy::new(create_filename_map);

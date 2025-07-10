@@ -13,6 +13,7 @@ cargo run --example basic_analysis
 ```
 
 This example analyzes the bytes-radar repository itself and displays:
+
 - Project summary statistics
 - Language breakdown
 - Total lines, files, and size information
@@ -27,6 +28,7 @@ cargo run --example github_token_analysis
 ```
 
 Make sure to:
+
 1. Set the `GITHUB_TOKEN` environment variable
 2. Update the repository URL in the example to point to your private repo
 3. Ensure your token has access to the repository
@@ -40,6 +42,7 @@ cargo run --example compare_repositories
 ```
 
 This example:
+
 - Analyzes multiple popular repositories
 - Compares them side by side
 - Ranks by complexity and documentation ratios
@@ -54,6 +57,7 @@ cargo run --example custom_analysis
 ```
 
 This example shows how to:
+
 - Create FileMetrics manually
 - Build a ProjectAnalysis step by step
 - Use different file categories
@@ -83,7 +87,8 @@ cargo run --example github_token_analysis
 ## Customizing Examples
 
 Feel free to modify these examples:
+
 - Change repository URLs to analyze your own projects
 - Adjust timeout values for slower connections
 - Add error handling for production use
-- Experiment with different output formats in the CLI 
+- Experiment with different output formats in the CLI

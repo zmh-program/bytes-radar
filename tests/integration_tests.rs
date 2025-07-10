@@ -1,4 +1,6 @@
-use bytes_radar::{FileCategory, FileMetrics, ProjectAnalysis, RemoteAnalyzer, Result};
+use bytes_radar::{
+    FileCategory, FileMetrics, ProjectAnalysis, RemoteAnalyzer, Result,
+};
 
 #[cfg(test)]
 mod integration_tests {
@@ -6,7 +8,14 @@ mod integration_tests {
 
     #[test]
     fn test_file_metrics_creation() -> Result<()> {
-        let metrics = FileMetrics::new("src/main.rs", "Rust".to_string(), 100, 70, 20, 10)?;
+        let metrics = FileMetrics::new(
+            "src/main.rs",
+            "Rust".to_string(),
+            100,
+            70,
+            20,
+            10,
+        )?;
 
         assert_eq!(metrics.file_path, "src/main.rs");
         assert_eq!(metrics.language, "Rust");
@@ -21,14 +30,16 @@ mod integration_tests {
 
     #[test]
     fn test_file_metrics_validation() {
-        let result = FileMetrics::new("test.rs", "Rust".to_string(), 100, 60, 20, 15);
+        let result =
+            FileMetrics::new("test.rs", "Rust".to_string(), 100, 60, 20, 15);
 
         assert!(result.is_err());
     }
 
     #[test]
     fn test_file_metrics_ratios() -> Result<()> {
-        let metrics = FileMetrics::new("src/lib.rs", "Rust".to_string(), 100, 80, 15, 5)?;
+        let metrics =
+            FileMetrics::new("src/lib.rs", "Rust".to_string(), 100, 80, 15, 5)?;
 
         assert_eq!(metrics.complexity_ratio(), 0.8);
         assert_eq!(metrics.documentation_ratio(), 15.0 / 80.0);
@@ -47,9 +58,17 @@ mod integration_tests {
     fn test_project_analysis_add_files() -> Result<()> {
         let mut project = ProjectAnalysis::new("test-project");
 
-        let rust_file = FileMetrics::new("src/main.rs", "Rust".to_string(), 50, 35, 10, 5)?;
+        let rust_file =
+            FileMetrics::new("src/main.rs", "Rust".to_string(), 50, 35, 10, 5)?;
 
-        let js_file = FileMetrics::new("script.js", "JavaScript".to_string(), 30, 25, 3, 2)?;
+        let js_file = FileMetrics::new(
+            "script.js",
+            "JavaScript".to_string(),
+            30,
+            25,
+            3,
+            2,
+        )?;
 
         project.add_file_metrics(rust_file)?;
         project.add_file_metrics(js_file)?;
@@ -100,7 +119,8 @@ mod integration_tests {
         let stats = project.get_language_statistics();
         assert_eq!(stats.len(), 2);
 
-        let rust_stats = stats.iter().find(|s| s.language_name == "Rust").unwrap();
+        let rust_stats =
+            stats.iter().find(|s| s.language_name == "Rust").unwrap();
         assert_eq!(rust_stats.file_count, 2);
         assert_eq!(rust_stats.total_lines, 150);
         assert_eq!(rust_stats.code_lines, 120);
@@ -120,14 +140,29 @@ mod integration_tests {
     fn test_file_categories() -> Result<()> {
         let mut project = ProjectAnalysis::new("categorized-project");
 
-        let source_file = FileMetrics::new("src/main.rs", "Rust".to_string(), 50, 40, 8, 2)?
-            .with_category(FileCategory::Source);
+        let source_file =
+            FileMetrics::new("src/main.rs", "Rust".to_string(), 50, 40, 8, 2)?
+                .with_category(FileCategory::Source);
 
-        let test_file = FileMetrics::new("tests/test.rs", "Rust".to_string(), 30, 25, 3, 2)?
-            .with_category(FileCategory::Test);
+        let test_file = FileMetrics::new(
+            "tests/test.rs",
+            "Rust".to_string(),
+            30,
+            25,
+            3,
+            2,
+        )?
+        .with_category(FileCategory::Test);
 
-        let doc_file = FileMetrics::new("README.md", "Markdown".to_string(), 20, 18, 0, 2)?
-            .with_category(FileCategory::Documentation);
+        let doc_file = FileMetrics::new(
+            "README.md",
+            "Markdown".to_string(),
+            20,
+            18,
+            0,
+            2,
+        )?
+        .with_category(FileCategory::Documentation);
 
         project.add_file_metrics(source_file)?;
         project.add_file_metrics(test_file)?;
